@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import Imagen from './imagen.vue'
 import Flecha from './flecha.vue'
+import Icono from './icono.vue'
 import { enlaceWhatsApp } from '@/data/sitio'
 
 const campos = [
@@ -86,7 +87,7 @@ const claseEntrada = 'w-full bg-[#f8f8f9] px-6 text-base text-[#0a0a0a] lg:text-
             <p class="leading-tight font-medium text-white">Arquitecto de Soluciones</p>
             <p class="mb-3 text-white/80">Y Proyectos</p>
             <p class="mb-3 text-lg font-medium text-white">Fernanda Romero</p>
-            <a :href="whatsapp" class="cta-giro inline-flex rounded-full bg-azul px-3 py-4 text-[15px] md:px-4 leading-none font-semibold whitespace-nowrap text-white"><span>Agendar sesión <Flecha /></span></a>
+            <a :href="whatsapp" class="cta-giro inline-flex rounded-full bg-azul px-3 py-4 text-[15px] md:px-4 leading-none font-semibold whitespace-nowrap text-white"><span><Icono nombre="whatsapp" /> Agendar sesión <Flecha /></span></a>
           </div>
         </div>
       </div>

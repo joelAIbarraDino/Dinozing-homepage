@@ -11,6 +11,7 @@ export const redes = {
   TikTok: 'https://www.tiktok.com/@dinozign',
 }
 
+export const calEnlace = 'dinozign/sesiondinozign'
 export const correo = 'administracion@dinozign.com'
 export const telefono = '+52 55 8293 2905'
 
@@ -22,6 +23,7 @@ export const navegacion = [
   { texto: 'Dinoproceso', href: '#dino-process' },
   { texto: 'Casos de éxito', href: '#evidence' },
   { texto: 'Contacto', href: '#contact-us' },
+  { texto: 'Agendar', href: '#agendar' },
 ]
 
 export const servicios = [

@@ -2,6 +2,7 @@
 import Imagen from './imagen.vue'
 import VideoDiferido from './videoDiferido.vue'
 import Flecha from './flecha.vue'
+import Icono from './icono.vue'
 import { redes } from '@/data/sitio'
 
 const socios = [
@@ -37,7 +38,7 @@ const anio = new Date().getFullYear()
           </ul>
           <ul class="space-y-3 text-sm text-gray-400 uppercase md:text-base lg:flex-1">
             <li v-for="(url, red) in redes" :key="red">
-              <a class="cta-giro inline-flex capitalize" :href="url" target="_blank" rel="noopener"><span>{{ red }} <Flecha /></span></a>
+              <a class="cta-giro inline-flex capitalize" :href="url" target="_blank" rel="noopener"><span><Icono :nombre="red" /> {{ red }} <Flecha /></span></a>
             </li>
           </ul>
         </div>

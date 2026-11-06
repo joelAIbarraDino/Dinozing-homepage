@@ -1,28 +1,40 @@
 <script setup>
-import { nextTick, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import Imagen from './imagen.vue'
 import Flecha from './flecha.vue'
+import Icono from './icono.vue'
 import { enlaceWhatsApp, servicios } from '@/data/sitio'
 
 const activo = ref(0)
+// En el acordeón una imagen se descarga al abrir su opción. En escritorio se piden todas
+// desde el inicio para que el cambio con el cursor sea inmediato.
+const conImagen = ref(new Set([0]))
 const enEscritorio = () => matchMedia('(min-width: 1024px)').matches
+onMounted(() => {
+  if (enEscritorio()) servicios.forEach((_, i) => conImagen.value.add(i))
+})
+function activar(i) {
+  conImagen.value.add(i)
+  activo.value = i
+}
 
 // Solo el mouse activa con hover: en táctil el toque también dispara pointerenter y foco,
 // y eso abriría la opción justo antes de que el clic la cerrara.
 function alEntrar(evento, i) {
-  if (evento.pointerType === 'mouse') activo.value = i
+  if (evento.pointerType === 'mouse') activar(i)
 }
 function alEnfocar(i) {
-  if (enEscritorio()) activo.value = i
+  if (enEscritorio()) activar(i)
 }
 
 async function alPulsar(evento, i) {
   if (enEscritorio()) {
-    activo.value = i
+    activar(i)
     return
   }
   const boton = evento.currentTarget
-  activo.value = activo.value === i ? -1 : i
+  if (activo.value === i) activo.value = -1
+  else activar(i)
   // Al cerrarse una opción de arriba, la fila tocada sube: se regresa a la vista cuando termina
   await nextTick()
   setTimeout(() => {
@@ -70,14 +82,14 @@ async function alPulsar(evento, i) {
           >
             <div class="min-h-0 overflow-hidden lg:h-full lg:overflow-visible">
               <div class="flex flex-col gap-5 pt-4 pb-8 lg:grid lg:h-full lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-x-8 lg:gap-y-6 lg:border-y lg:border-white/10 lg:py-6">
-                <Imagen :nombre="s.imagen" :alt="s.alt" sizes="(min-width: 1024px) 24vw, 100vw" class="aspect-4/3 h-auto w-full object-cover lg:col-start-1 lg:row-start-2 lg:self-start" />
+                <Imagen v-if="conImagen.has(i)" :nombre="s.imagen" :alt="s.alt" sizes="(min-width: 1024px) 24vw, 100vw" class="aspect-4/3 h-auto w-full object-cover lg:col-start-1 lg:row-start-2 lg:self-start" />
                 <p class="text-lg leading-snug font-semibold tracking-tight text-white lg:col-span-2 lg:col-start-1 lg:row-start-1 lg:text-[clamp(1.25rem,1.9vw,2rem)] lg:leading-[1.15]">{{ s.texto }}</p>
                 <div class="flex flex-col justify-between gap-5 lg:col-start-2 lg:row-start-2">
                   <ul class="space-y-2 text-sm leading-snug font-bold text-white lg:space-y-0 lg:divide-y lg:divide-white/10">
                     <li v-for="p in s.puntos" :key="p" class="flex gap-2 lg:py-2.5 lg:first:pt-0"><span class="text-rosa" aria-hidden="true">✓</span><span>{{ p }}</span></li>
                   </ul>
                   <a :href="enlaceWhatsApp(s.mensaje)" class="cta-giro flex justify-center self-stretch rounded-full bg-azul px-5 py-4 text-[15px] leading-tight font-semibold text-white lg:inline-flex lg:self-start lg:text-left">
-                    <span>{{ s.cta }} <Flecha class="shrink-0" /></span>
+                    <span><Icono nombre="whatsapp" /> {{ s.cta }} <Flecha class="shrink-0" /></span>
                   </a>
                 </div>
               </div>

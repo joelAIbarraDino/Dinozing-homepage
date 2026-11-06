@@ -4,6 +4,7 @@ import Imagen from './imagen.vue'
 import VideoDiferido from './videoDiferido.vue'
 import { correo, navegacion, redes, telefono, whatsappGeneral } from '@/data/sitio'
 import Flecha from './flecha.vue'
+import Icono from './icono.vue'
 import { alVer } from '@/lib/alVer'
 
 const abierto = ref(false)
@@ -84,7 +85,7 @@ onBeforeUnmount(() => {
                 :class="abierto ? 'translate-y-0' : 'translate-y-[120%]'"
                 :style="{ transitionDelay: abierto ? `${250 + i * 45}ms` : '0ms' }"
               >
-                <span class="font-thunder block pt-[0.1em] text-[max(2.5rem,min(8svh,13vw))] leading-none font-bold tracking-wide uppercase transition-transform duration-400 ease-out group-hover:translate-x-3 group-focus-visible:translate-x-3 lg:text-[max(2.5rem,min(10.5svh,7vw))]">{{ n.texto }}</span>
+                <span class="font-thunder block pt-[0.1em] text-[max(2.25rem,min(7svh,13vw))] leading-none font-bold tracking-wide uppercase transition-transform duration-400 ease-out group-hover:translate-x-3 group-focus-visible:translate-x-3 lg:text-[max(2.5rem,min(8.4svh,7vw))]">{{ n.texto }}</span>
               </span>
               <span class="relative ml-auto flex opacity-40 transition-[opacity,translate] duration-400 group-hover:-translate-x-2 group-hover:opacity-100 group-focus-visible:opacity-100 [&>svg]:size-5 lg:[&>svg]:size-7" aria-hidden="true"><Flecha /></span>
             </a>
@@ -95,20 +96,20 @@ onBeforeUnmount(() => {
       <div class="flex flex-col gap-4 transition-opacity delay-300 duration-500 lg:justify-between lg:gap-6" :class="abierto ? 'opacity-100' : 'opacity-0'">
         <div class="hidden flex-1 flex-col justify-between gap-6 lg:flex">
           <Imagen nombre="huevo" alt="" sizes="56px" class="hidden h-14 w-auto self-start xl:block" />
-          <p class="font-thunder hidden text-[min(7svh,4vw)] leading-[0.95] font-bold tracking-wide text-verde uppercase [@media(min-height:720px)]:block">Ingeniería digital a nivel empresarial</p>
+          <p class="font-thunder hidden text-[min(7svh,4vw)] leading-[0.95] font-bold tracking-wide text-verde uppercase [@media(min-height:800px)]:block">Ingeniería digital a nivel empresarial</p>
           <div class="flex flex-col gap-6">
           <VideoDiferido v-if="yaAbierto" nombre="menu" class="aspect-video h-auto w-full rounded-2xl object-cover" />
           <address class="space-y-2 text-base text-white/70 not-italic">
             <a class="block break-all transition-colors hover:text-verde" :href="`mailto:${correo}`">{{ correo }}</a>
-            <a class="block transition-colors hover:text-verde" :href="whatsappGeneral">{{ telefono }}</a>
+            <a class="flex items-center gap-2 transition-colors hover:text-verde" :href="whatsappGeneral"><Icono nombre="whatsapp" /> {{ telefono }}</a>
           </address>
           </div>
         </div>
         <div class="space-y-3">
           <div class="grid grid-cols-3 gap-2">
-            <a v-for="(url, red) in redes" :key="red" :href="url" target="_blank" rel="noopener" class="rounded-full bg-[#1E1E1E] py-3 text-center text-xs font-medium text-white uppercase transition-colors hover:bg-rosa lg:text-sm">{{ red }}</a>
+            <a v-for="(url, red) in redes" :key="red" :href="url" target="_blank" rel="noopener" class="flex items-center justify-center gap-1.5 rounded-full bg-[#1E1E1E] py-3 text-xs font-medium text-white uppercase transition-colors hover:bg-rosa xl:text-sm"><Icono :nombre="red" /> {{ red }}</a>
           </div>
-          <a :href="whatsappGeneral" class="cta-giro flex justify-center rounded-full bg-rosa px-6 py-4 font-semibold text-white"><span>Iniciar operación <Flecha /></span></a>
+          <a :href="whatsappGeneral" class="cta-giro flex justify-center rounded-full bg-rosa px-6 py-4 font-semibold text-white"><span><Icono nombre="whatsapp" /> Iniciar operación <Flecha /></span></a>
         </div>
       </div>
     </div>

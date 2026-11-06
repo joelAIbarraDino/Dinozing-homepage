@@ -1,5 +1,6 @@
 <script setup>
 import { onMounted } from 'vue'
+import Iconosprite from './components/iconosprite.vue'
 import Siteheader from './components/siteheader.vue'
 import Hero from './components/hero.vue'
 import Kiosko from './components/kiosko.vue'
@@ -12,6 +13,7 @@ import Marcas from './components/marcas.vue'
 import Proceso from './components/proceso.vue'
 import Evidencia from './components/evidencia.vue'
 import Contacto from './components/contacto.vue'
+import Agenda from './components/agenda.vue'
 import Sitefooter from './components/sitefooter.vue'
 import Volverarriba from './components/volverarriba.vue'
 
@@ -28,6 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <Iconosprite />
   <Siteheader />
   <main class="flex flex-col gap-(--seccion)">
     <Hero />
@@ -41,6 +44,7 @@ onMounted(() => {
     <Proceso />
     <Evidencia />
     <Contacto />
+    <Agenda />
   </main>
   <Sitefooter />
   <Volverarriba />
