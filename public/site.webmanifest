@@ -1,0 +1,13 @@
+{
+    "name": "Dinozign | Agencia de IA, Marketing Digital y Automatización",
+    "short_name": "Dinozign",
+    "description": "Transformamos tu negocio con Inteligencia Artificial y Marketing. Expertos en Chatbots, Automatización de Procesos y Ventas. ¡Agenda tu diagnóstico hoy!",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0D0F11",
+    "theme_color": "#1821f5",
+    "icons": [
+        { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+        { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
+    ]
+}

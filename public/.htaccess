@@ -1,0 +1,40 @@
+# Dinozign - Hostinger
+# Este archivo se hereda a TODAS las subcarpetas de public_html (clientes, regalos, firmas...).
+# Por eso cada regla está acotada al sitio principal. No agregues reglas generales.
+# HTTPS, compresión y bloqueo de listados ya los resuelve Hostinger.
+
+# Hostinger no reconoce AVIF por sí solo (en estas carpetas no hay otros .avif)
+<IfModule mod_mime.c>
+  AddType image/avif .avif
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Dominio sin www (coincide con la URL canónica), sin afectar a las demás carpetas
+  RewriteCond %{HTTP_HOST} ^www\.dinozign\.com$ [NC]
+  RewriteCond %{REQUEST_URI} !^/(regalos|clientes|firmas|smartick|test)(/|$)
+  RewriteRule ^ https://dinozign.com%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Archivos con hash en el nombre: nunca cambian, caché de 1 año.
+  # Se reconocen por el patrón del nombre para no afectar archivos normales de otras carpetas.
+  <FilesMatch "(-[A-Za-z0-9_-]{8}\.(js|css|woff2|svg)|\.[0-9a-f]{8}(-[0-9]+)?\.(avif|webp|mp4))$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  # Sin hash: caché corta, solo para estos archivos
+  <FilesMatch "^(favicon|preview|apple-touch-icon|android-chrome-[0-9x]+)\.png$|^(sitemap\.xml|robots\.txt|site\.webmanifest)$">
+    Header set Cache-Control "public, max-age=86400"
+  </FilesMatch>
+</IfModule>
+
+# Solo la página principal: se revalida en cada visita y lleva las cabeceras de seguridad
+<IfModule mod_setenvif.c>
+  SetEnvIf Request_URI "^/(index\.html)?$" pagina_principal
+  <IfModule mod_headers.c>
+    Header set Cache-Control "no-cache" env=pagina_principal
+    Header set X-Content-Type-Options "nosniff" env=pagina_principal
+    Header set Referrer-Policy "strict-origin-when-cross-origin" env=pagina_principal
+    Header set Strict-Transport-Security "max-age=31536000" env=pagina_principal
+  </IfModule>
+</IfModule>

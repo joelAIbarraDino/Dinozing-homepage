@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Thunder";
+  src: url("./assets/fonts/Thunder-BoldLC.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "ThunderMed";
+  src: url("./assets/fonts/Thunder-MediumLC.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter-latin-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-thunder: "Thunder", sans-serif;
+  --font-thunder-med: "ThunderMed", sans-serif;
+  --color-verde: #59f22e;
+  --color-rosa: #f22daa;
+  --color-azul: #1821f5;
+  --color-tinta: #0d0f11;
+  --animate-spin-slow: spin 10s linear infinite;
+}
+
+:root {
+  --seccion: clamp(5.5rem, 11vw, 11rem); /* único espacio entre secciones */
+}
+
+html {
+  background: var(--color-tinta);
+  color: #fff;
+  scroll-behavior: smooth;
+  scroll-padding-top: 110px; /* las anclas no quedan bajo el header fijo */
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+/* Marquesina: solo mueve transform, se resuelve en el compositor sin repintar */
+@keyframes marquesina {
+  to { transform: translateX(-50%); }
+}
+.marquesina-pista {
+  animation: marquesina var(--duracion, 60s) linear infinite;
+  animation-play-state: paused;
+}
+.marquesina-pista.corriendo { animation-play-state: running; }
+.marquesina-pista.inversa { animation-direction: reverse; }
+@media (prefers-reduced-motion: reduce) {
+  .marquesina-pista { animation: none; }
+}
+
+/* Giro de las estrellas: se detiene junto con su marquesina */
+.marquesina-pista .animate-spin-slow { animation-play-state: paused; }
+.marquesina-pista.corriendo .animate-spin-slow { animation-play-state: running; }
+
+/* Botón con giro al pasar el cursor */
+.cta-giro > span { display: inline-flex; align-items: center; gap: 10px; transition: transform .6s ease; }
+.cta-giro:hover > span { transform: rotateX(360deg); }
+
+/* Franja borrosa fija en el borde inferior de la ventana. backdrop-filter repinta en cada
+   scroll, así que solo se activa en pantallas grandes. */
+@media (min-width: 1024px) {
+  .desenfoque-inferior {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 15;
+    height: 80px;
+    pointer-events: none;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    -webkit-mask: linear-gradient(180deg, transparent 0%, black 100%);
+    mask: linear-gradient(180deg, transparent 0%, black 100%);
+  }
+}
+
+/* Con picture en display: contents, los source contarían como hijos de un flex y sumarían gap */
+picture > source { display: none; }
+
+/* Las cápsulas nacen ocultas y solo aparecen cayendo. Sin JS, con movimiento reducido o si la
+   física no carga se muestran como lista legible. */
+.no-js .capsulas-escena,
+.capsulas-escena.lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .75rem;
+  height: auto;
+  padding: 2rem;
+}
+.no-js .capsulas-escena > li,
+.capsulas-escena.lista > li {
+  position: static;
+  opacity: 1;
+}
